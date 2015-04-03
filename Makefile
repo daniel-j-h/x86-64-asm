@@ -1,11 +1,11 @@
 include Config.mk
 
-all: Hello
+all: Pause
 
-Hello.o: Hello.s
-Hello: Hello.o
+Pause.o: Pause.s
+Pause: Pause.o
 
 clean:
-	$(RM) *.o Hello
+	$(RM) *.o Pause
 
 .PHONY: all clean
