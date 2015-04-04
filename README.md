@@ -7,23 +7,23 @@
 * syscall args: rdi rsi rdx r10 r8 r9
 * return value: rax
 
-syscall table: https://github.com/torvalds/linux/blob/567cfea99af61ef19da42f8491da98cf94a4d166/arch/x86/syscalls/syscall_64.tbl#L9-L331
+[syscall table](https://github.com/torvalds/linux/blob/567cfea99af61ef19da42f8491da98cf94a4d166/arch/x86/syscalls/syscall_64.tbl#L9-L331)
 
 
 ### pause
 
     rax=34
 
-https://github.com/torvalds/linux/blob/567cfea99af61ef19da42f8491da98cf94a4d166/arch/x86/syscalls/syscall_64.tbl#L43
-https://github.com/torvalds/linux/blob/567cfea99af61ef19da42f8491da98cf94a4d166/kernel/signal.c#L3550-L3557
+* [syscall_64.tbl](https://github.com/torvalds/linux/blob/567cfea99af61ef19da42f8491da98cf94a4d166/arch/x86/syscalls/syscall_64.tbl#L43)
+* [signal.c](https://github.com/torvalds/linux/blob/567cfea99af61ef19da42f8491da98cf94a4d166/kernel/signal.c#L3550-L3557)
 
 
 ### exit
 
     rax=60, rdi=0
 
-https://github.com/torvalds/linux/blob/567cfea99af61ef19da42f8491da98cf94a4d166/arch/x86/syscalls/syscall_64.tbl#L69
-https://github.com/torvalds/linux/blob/567cfea99af61ef19da42f8491da98cf94a4d166/kernel/exit.c#L843-L846
+* [syscall_64.tbl](https://github.com/torvalds/linux/blob/567cfea99af61ef19da42f8491da98cf94a4d166/arch/x86/syscalls/syscall_64.tbl#L69)
+* [exit.c](https://github.com/torvalds/linux/blob/567cfea99af61ef19da42f8491da98cf94a4d166/kernel/exit.c#L843-L846)
 
 
 ## encoding
