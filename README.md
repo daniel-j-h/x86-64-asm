@@ -78,3 +78,8 @@ assembler mnemonics
     objdump -d
 
 
+## License
+
+Copyright © 2015 Daniel J. Hofmann
+
+Distributed under the MIT License (MIT).
