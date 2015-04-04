@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ "$#" != "1" ]; then
-  echo "usage: ./encode.sh objfile"
+  echo "Usage: ./Encode.sh ObjFile"
   exit 1
 fi
 

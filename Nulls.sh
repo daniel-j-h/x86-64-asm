@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ "$#" != "1" ]; then
-  echo "usage: ./nulls.sh objfile"
+  echo "Usage: ./Nulls.sh ObjFile"
   exit 1
 fi
 
