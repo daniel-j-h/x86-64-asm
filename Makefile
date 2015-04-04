@@ -1,14 +1,14 @@
 include Config.mk
 
-all: Pause
+all: Pause Exit
 
-Pause.o: Pause.s
 Pause: Pause.o
+Exit: Exit.o
 
 watch:
 	while ! inotifywait -e modify *.s; do make; done
 
 clean:
-	$(RM) *.o Pause
+	$(RM) *.o Pause Exit
 
 .PHONY: all watch clean

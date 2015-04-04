@@ -4,7 +4,8 @@ section .text
 
 _start:
   xor rax, rax
-  mov al, 34
+  mov al, 60
+  xor rdi, rdi
   syscall
 
 
