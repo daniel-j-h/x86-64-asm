@@ -17,6 +17,8 @@
 * [syscall_64.tbl](https://github.com/torvalds/linux/blob/567cfea99af61ef19da42f8491da98cf94a4d166/arch/x86/syscalls/syscall_64.tbl#L43)
 * [signal.c](https://github.com/torvalds/linux/blob/567cfea99af61ef19da42f8491da98cf94a4d166/kernel/signal.c#L3550-L3557)
 
+    make -f asm.mk
+
 
 ### exit
 
@@ -24,6 +26,8 @@
 
 * [syscall_64.tbl](https://github.com/torvalds/linux/blob/567cfea99af61ef19da42f8491da98cf94a4d166/arch/x86/syscalls/syscall_64.tbl#L69)
 * [exit.c](https://github.com/torvalds/linux/blob/567cfea99af61ef19da42f8491da98cf94a4d166/kernel/exit.c#L843-L846)
+
+    make -f asm.mk
 
 
 ## encoding
@@ -68,6 +72,21 @@ notes:
 * see ld's -z execstack
 * try with stack-based ops, nx bit
 * see mprotect
+
+
+### jit
+
+    make -s -f cc.mk; ./Jit
+    -w- blob at 0x7faee5559000 size 4096
+    r-x blob at 0x7faee5559000 size 4096
+    
+
+see Jit.cc and its comments; it works like this:
+
+* mmap memory, writable
+* write machine code into it
+* change protection to readable, executable
+* execute machine code
 
 
 ## utilities

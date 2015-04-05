@@ -1,5 +1,7 @@
 Pause
 Exit
 
+Jit
+
 *.o
 .*.swp

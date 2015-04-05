@@ -1,4 +1,4 @@
-include Config.mk
+include mk/config-asm.mk
 
 all: Pause Exit
 
