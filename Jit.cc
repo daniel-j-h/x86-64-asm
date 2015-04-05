@@ -66,7 +66,8 @@ void protect(Blob& blob, int prot) {
     throw std::system_error{errno, std::system_category()};
 }
 
-// RAII wrapper marking/unmarking memory non-pageable
+// RAII wrapper marking/unmarking memory non-swapable
+// Note: a locked page can not be unmaped
 struct PageLockGuard final {
   PageLockGuard(const Blob& blob) : blob_{blob} {
     assert(pageAligned(blob.first));
@@ -87,6 +88,7 @@ private:
 };
 
 // Anonymous (i.e. not file-backed) private (i.e. not visible to other processes) memory mapping
+// Note: a locked page can not be unmaped
 struct PageMapping final {
   PageMapping(Size len, int prot) {
     void* rv = ::mmap(nullptr, len, prot, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
@@ -97,11 +99,13 @@ struct PageMapping final {
     assert(pageAligned(static_cast<Address>(rv)));
 
     blob_ = {static_cast<Address>(rv), len};
+    owns_ = true;
   }
 
   ~PageMapping() {
     if (owns_) {
       const int rv = ::munmap(blob_.first, blob_.second);
+      // Page may be locked
       assert(rv != -1);
     }
   }
@@ -109,19 +113,27 @@ struct PageMapping final {
   PageMapping(const PageMapping&) = delete;
   PageMapping& operator=(const PageMapping&) = delete;
 
-  PageMapping(PageMapping&& rhs) noexcept : blob_{std::move(rhs.blob_)} { rhs.owns_ = false; }
+  PageMapping(PageMapping&& rhs) noexcept : PageMapping{} { swap(*this, rhs); }
 
   PageMapping& operator=(PageMapping&& rhs) & noexcept {
-    blob_ = std::move(rhs.blob_);
-    rhs.owns_ = false;
+    swap(*this, rhs);
     return *this;
+  }
+
+  friend void swap(PageMapping& lhs, PageMapping& rhs) noexcept {
+    using std::swap;
+    swap(lhs.blob_, rhs.blob_);
+    swap(lhs.owns_, rhs.owns_);
   }
 
   Blob getBlob() { return blob_; }
 
 private:
   Blob blob_;
-  bool owns_ = true;
+  bool owns_ = false;
+
+  // For copy-swap idiom's move constructor
+  PageMapping() = default;
 };
 
 } // ns
@@ -134,7 +146,7 @@ int main() try {
   // Writable mapping of one page
   PageMapping mapping{1u * getPageSize(), PROT_WRITE};
   auto blob = mapping.getBlob();
-  // Mark mapping non-pageable
+  // Mark mapping non-swapable
   PageLockGuard _{blob};
 
   std::cout << "-w- blob at " << (void*)blob.first << " size " << blob.second << std::endl;
