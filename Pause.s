@@ -1,10 +1,12 @@
+%include "Syscalls.mac"
+
 section .text
   global _start
 
 
 _start:
   xor rax, rax
-  mov al, 34
+  mov al, sys_pause
   syscall
 
 
